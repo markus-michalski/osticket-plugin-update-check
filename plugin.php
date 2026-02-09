@@ -14,7 +14,7 @@
 
 return [
     'id'          => 'net.michalski:update-check',
-    'version'     => '0.1.0',
+    'version' =>        '1.0.0',
     'name'        => /* trans */ 'Plugin Update Checker',
     'author'      => 'Markus Michalski',
     'description' => /* trans */ 'Checks GitHub for plugin updates and shows badges in the plugin list',

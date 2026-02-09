@@ -16,6 +16,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Nothing yet
 
+## [1.0.0] - 2026-02-09
+
+### Added
+- initial plugin implementation
+
+### Changed
+- add README, CHANGELOG and .releaseinclude
+
 ## [0.1.0] - 2026-02-09
 
 ### Added

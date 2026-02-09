@@ -1,0 +1,28 @@
+# Plugin Update Checker - Release Include File
+# Files to include in release builds
+
+# Core plugin files
+plugin.php
+class.UpdateCheckPlugin.php
+config.php
+
+# Source classes
+src/
+src/AssetInjector.php
+src/FileCache.php
+src/GitHubReleaseChecker.php
+src/PluginUpdateCollector.php
+
+# Assets
+assets/
+assets/update-badges.css
+assets/update-badges.js
+
+# Composer autoload (required at runtime)
+vendor/autoload.php
+vendor/composer/
+
+# Documentation
+README.md
+CHANGELOG.md
+LICENSE

@@ -1,0 +1,87 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  code-quality:
+    name: Code Quality Checks
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        php-version: ['8.2', '8.3']
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP ${{ matrix.php-version }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          extensions: mbstring, json, curl
+          coverage: none
+
+      - name: Validate composer.json
+        run: composer validate --strict
+
+      - name: Install Composer Dependencies
+        run: composer update --prefer-dist --no-progress
+
+      - name: PHP Syntax Check
+        run: |
+          echo "Checking PHP syntax..."
+          find . -name "*.php" ! -path "./vendor/*" ! -path "./tests/*" -print0 | while IFS= read -r -d '' file; do
+            echo "Checking: $file"
+            php -l "$file"
+          done
+
+      - name: Run PHPUnit Tests
+        run: vendor/bin/phpunit --testdox --no-coverage
+
+  package-validation:
+    name: Package Validation
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Verify Required Files
+        run: |
+          echo "Verifying plugin structure..."
+          test -f plugin.php || { echo "Error: plugin.php not found"; exit 1; }
+          test -f class.UpdateCheckPlugin.php || { echo "Error: class.UpdateCheckPlugin.php not found"; exit 1; }
+          test -f config.php || { echo "Error: config.php not found"; exit 1; }
+          test -f README.md || { echo "Error: README.md not found"; exit 1; }
+          test -f CHANGELOG.md || { echo "Error: CHANGELOG.md not found"; exit 1; }
+          test -f LICENSE || { echo "Error: LICENSE not found"; exit 1; }
+          test -f composer.json || { echo "Error: composer.json not found"; exit 1; }
+          test -f .releaseinclude || { echo "Error: .releaseinclude not found"; exit 1; }
+          test -d assets || { echo "Error: assets/ directory not found"; exit 1; }
+          test -d src || { echo "Error: src/ directory not found"; exit 1; }
+          test -f assets/update-badges.css || { echo "Error: CSS file not found"; exit 1; }
+          test -f assets/update-badges.js || { echo "Error: JS file not found"; exit 1; }
+          test -f src/AssetInjector.php || { echo "Error: AssetInjector.php not found"; exit 1; }
+          test -f src/FileCache.php || { echo "Error: FileCache.php not found"; exit 1; }
+          test -f src/GitHubReleaseChecker.php || { echo "Error: GitHubReleaseChecker.php not found"; exit 1; }
+          test -f src/PluginUpdateCollector.php || { echo "Error: PluginUpdateCollector.php not found"; exit 1; }
+          echo "All required files present"
+
+      - name: Verify CHANGELOG format
+        run: |
+          echo "Checking CHANGELOG.md format..."
+          grep -q "## \[Unreleased\]" CHANGELOG.md || { echo "Error: [Unreleased] section missing"; exit 1; }
+          echo "CHANGELOG format valid"
+
+      - name: Check plugin.php metadata
+        run: |
+          echo "Checking plugin.php metadata..."
+          grep -q "'id'" plugin.php || { echo "Error: Plugin ID not found"; exit 1; }
+          grep -q "class.UpdateCheckPlugin.php" plugin.php || { echo "Error: Plugin class reference not found"; exit 1; }
+          test -f class.UpdateCheckPlugin.php || { echo "Error: Plugin class file not found"; exit 1; }
+          echo "Plugin metadata valid"

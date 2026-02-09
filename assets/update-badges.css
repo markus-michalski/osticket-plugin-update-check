@@ -1,0 +1,40 @@
+/**
+ * Update Badges - Styles
+ *
+ * Matches osTicket's native label styling (label-warning pattern).
+ *
+ * @package    osTicket\Plugins\UpdateCheck
+ * @author     Markus Michalski
+ * @version    0.1.0
+ */
+
+.plugin-update-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    margin-left: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1.4;
+    color: #fff;
+    background-color: #f0ad4e;
+    border-radius: 3px;
+    text-decoration: none;
+    vertical-align: middle;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+
+.plugin-update-badge:hover {
+    background-color: #ec971f;
+    color: #fff;
+    text-decoration: none;
+}
+
+.plugin-update-badge:visited {
+    color: #fff;
+}
+
+.plugin-update-badge::before {
+    content: '\2191 '; /* Up arrow */
+}

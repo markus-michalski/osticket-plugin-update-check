@@ -1,0 +1,55 @@
+{
+    "name": "mmd/osticket-plugin-update-check",
+    "description": "osTicket plugin that checks GitHub for plugin updates and shows badges in the plugin list",
+    "type": "osticket-plugin",
+    "license": "GPL-2.0-or-later",
+    "authors": [
+        {
+            "name": "Markus Michalski",
+            "email": "info@markus-michalski.net"
+        }
+    ],
+    "homepage": "https://github.com/markus-michalski/osticket-plugin-update-check",
+    "support": {
+        "issues": "https://github.com/markus-michalski/osticket-plugin-update-check/issues",
+        "source": "https://github.com/markus-michalski/osticket-plugin-update-check"
+    },
+    "keywords": [
+        "osticket",
+        "plugin",
+        "update",
+        "checker",
+        "github"
+    ],
+    "require": {
+        "php": ">=8.1",
+        "ext-curl": "*",
+        "ext-json": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^11.0",
+        "phpstan/phpstan": "^1.10"
+    },
+    "autoload": {
+        "psr-4": {
+            "Mmd\\UpdateCheck\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Mmd\\UpdateCheck\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "phpunit",
+        "test:unit": "phpunit --testsuite=Unit",
+        "test:coverage": "phpunit --coverage-html=coverage",
+        "analyse": "phpstan analyse src --level=8"
+    },
+    "config": {
+        "sort-packages": true,
+        "optimize-autoloader": true
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
